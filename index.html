@@ -38,12 +38,28 @@
     </section>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const backgroundMusic = document.getElementById("background-music");
             const hoverSound = document.getElementById("hover-sound");
             const images = document.querySelectorAll(".image-container img");
+
+            // Inicia la música de fondo después de la primera interacción del usuario
+            function startBackgroundMusic() {
+                backgroundMusic.play().catch((error) => {
+                    console.log("Audio playback was prevented:", error);
+                });
+                document.removeEventListener("click", startBackgroundMusic);
+            }
+
+            // Agrega el evento de clic para activar la música de fondo
+            document.addEventListener("click", startBackgroundMusic);
+
+            // Reproduce el sonido al hacer hover en las imágenes después de la interacción
             images.forEach((image) => {
                 image.addEventListener("mouseenter", () => {
                     hoverSound.currentTime = 0;
-                    hoverSound.play();
+                    hoverSound.play().catch((error) => {
+                        console.log("Hover sound playback was prevented:", error);
+                    });
                 });
             });
         });
